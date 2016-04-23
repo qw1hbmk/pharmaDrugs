@@ -1,0 +1,101 @@
+{% extends 'base.html' %} 
+{% block main %}
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Drug Ingredients</h3>
+  </div>
+  <div class="panel-body">
+
+    <ul>
+      {% for brandName, ingredients in ingredient_categories | groupby('BrandName') %}
+        <li>
+          <h5>{{brandName}}</h5>
+          <ul>
+            {% for ingredient in ingredients %}
+              <li>{{ ingredient.IngredientName }} &ndash; {{ ingredient.Strength }} {{ ingredient.StrengthUnit }} ({{ ingredient.Categories }})</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+
+    </ul>
+  </div>
+</div>
+
+
+<div class="panel panel-{% if food_interactions|length > 0 %}warning{% else %}success{% endif %}">
+  <div class="panel-heading">
+    <h3 class="panel-title">Food Interactions</h3>
+  </div>
+  <div class="panel-body">
+
+    <ul>
+      {% for brandName, rows in food_interactions | groupby('BrandName') %}
+        <li>
+          <h5>{{brandName}}</h5>
+          <ul>
+            {% for ingredient in rows %}
+              <li>{{ ingredient.IngredientName }}: {{ ingredient.FoodInteractionDescriptions }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% else %}
+        <li>No food interactions found</li>
+      {% endfor %}
+
+    </ul>
+  </div>
+</div>
+
+<div class="panel panel-{% if ingredient_conflicts|length > 0 %}danger{% else %}success{% endif %}">
+  <div class="panel-heading">
+    <h3 class="panel-title">Conflicting Ingredients</h3>
+  </div>
+  <div class="panel-body">
+    <ul>
+      {% for _, pairConflicts in ingredient_conflicts | groupby('GroupablePairName') %}
+        <li>
+          <h5>{{ pairConflicts[0].BrandName }} and {{ pairConflicts[0].ConflictsWith }}</h5>
+          <ul>
+            {% for conflict in pairConflicts %}
+              <li>{{ conflict.IngredientName }}, {{ conflict.ConflictingIngredient }} &ndash; {{ conflict.Description }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% else %}
+        <li>No drug conflicts found</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="panel panel-{% if drug_category_duplicates|length > 0 %}danger{% else %}success{% endif %}">
+  <div class="panel-heading">
+    <h3 class="panel-title">Drug Ingredient or Category Duplicates</h3>
+  </div>
+  <div class="panel-body">
+
+    <ul>
+      {% for category, rows in drug_category_duplicates | groupby('CategoryName') %}
+        <li>
+          <h5>{{category}}</h5>
+          <ul>
+            {% for row in rows %}
+              <li>{{row.BrandName}} ({{row.IngredientName}})</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% else %}
+        <li>No duplicates found</li>
+      {% endfor %}
+
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

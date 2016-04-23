@@ -1,0 +1,95 @@
+{% extends 'base.html' %} 
+{% block main %}
+
+<form action="/results">
+
+  {% if top_levenshtein1 %}
+
+    <h3>Select Drug 1</h3>
+    <div class="row">
+      <div class="col-xs-6">
+        <h4> Levenshtein Search </h4>
+        {% for score, drugname in top_levenshtein1 %}
+          <div> 
+            <input id="{{ drugname.replace(" ", "-").replace("'", "").replace(",", "") }}" type= "radio" name = "drug1" value="{{ drugname.upper() }}"/>
+            <label for="{{ drugname.replace(" ", "-").replace("'", "") }}.replace(",", "")">[{{ score }}] {{ drugname }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-xs-6">
+        <h4> Fuzzy Levenshtein Search </h4>
+        {% for score, drugname in top_fuzzy_levenshtein1 %}
+          <div> 
+            <input id="{{ drugname.replace(" ", "-").replace("'", "").replace(",", "") }}" type= "radio" name = "drug1" value="{{ drugname.upper() }}"/>
+            <label for="{{ drugname.replace(" ", "-").replace("'", "") }}.replace(",", "")">[{{ score }}] {{ drugname }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div> 
+  {% endif %}
+
+
+  {% if top_levenshtein2 %}
+    <h3>Select Drug 2</h3>
+    <div class="row">
+      <div class="col-xs-6">
+        <h4> Levenshtein Search </h4>
+        {% for score, drugname in top_levenshtein2 %}
+          <div> 
+            <input id="{{ drugname.replace(" ", "-").replace("'", "").replace(",", "") }}" type= "radio" name = "drug2" value="{{ drugname.upper() }}"/>
+            <label for="{{ drugname.replace(" ", "-").replace("'", "") }}.replace(",", "")">[{{ score }}] {{ drugname }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-xs-6">
+        <h4> Fuzzy Levenshtein Search </h4>
+        {% for score, drugname in top_fuzzy_levenshtein2 %}
+          <div> 
+            <input id="{{ drugname.replace(" ", "-").replace("'", "").replace(",", "") }}" type= "radio" name = "drug2" value="{{ drugname.upper() }}"/>
+            <label for="{{ drugname.replace(" ", "-").replace("'", "") }}.replace(",", "")">[{{ score }}] {{ drugname }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div> 
+  {% endif %}
+
+
+  {% if top_levenshtein3 %}
+    <h3>Select Drug 3</h3>
+    <div class="row">
+      <div class="col-xs-6">
+        <h4> Levenshtein Search </h4>
+        {% for score, drugname in top_levenshtein3 %}
+          <div> 
+            <input id="{{ drugname.replace(" ", "-").replace("'", "").replace(",", "") }}" type= "radio" name = "drug3" value="{{ drugname.upper() }}"/>
+            <label for="{{ drugname.replace(" ", "-").replace("'", "") }}.replace(",", "")">[{{ score }}] {{ drugname }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-xs-6">
+        <h4> Fuzzy Levenshtein Search </h4>
+        {% for score, drugname in top_fuzzy_levenshtein3 %}
+          <div> 
+            <input id="{{ drugname.replace(" ", "-").replace("'", "").replace(",", "") }}" type= "radio" name = "drug3" value="{{ drugname.upper() }}"/>
+            <label for="{{ drugname.replace(" ", "-").replace("'", "") }}.replace(",", "")">[{{ score }}] {{ drugname }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div> 
+  {% endif %}
+
+  <div class="row">
+    <p>
+     <br/> <br/> <button type="submit" class="btn btn-primary btn-lg">Find Interactions</button> 
+    <p>
+  </div>
+</form>
+
+
+{% endblock %}
